@@ -1,9 +1,10 @@
 import cv2
+import numpy as np
 from object_detector import ObjectDetection
 
 p1_hand = (0, 0)
 p2_hand = (200, 300)
-lower_hsv_hand = (0, 36, 0)
+lower_hsv_hand = (0, 56, 0)
 file_directory = 'Data\\Test\\Left\\'
 name = 'HANDS'
 i = 0
@@ -17,11 +18,11 @@ while True:
     _, img = cap.read()
     img = cv2.flip(img, 1)
     img_pre, img = obj.preprocess(img)
-    cv2.imshow('Dataset testing', img)
     cv2.imshow('Dataset  pre', img_pre)
+    cv2.imshow('Dataset testing', img)
 
     filename = file_directory + name + str(i) + '.jpg'
-    #cv2.imwrite(filename, img_pre)
+    # cv2.imwrite(filename, img_pre)
     if i == limit:
         break
     i += 1

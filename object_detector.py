@@ -57,6 +57,7 @@ class ObjectDetection:
 
         return erosion, img
 
+
     def contours(self, erosion, img):
 
         th = cv2.getTrackbarPos("Threshold", "Adjusting value")
