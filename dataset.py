@@ -4,7 +4,7 @@ from object_detector import ObjectDetection
 p1_hand = (0, 0)
 p2_hand = (200, 500)
 lower_hsv_hand = (30, 0, 143)
-file_directory = 'C:\\Users\\D3LL-PC\\Desktop\\pycharm_projects\\Data\\Up\\'
+file_directory = 'Data\\Up\\'
 name = 'HANDS'
 i = 0
 limit = 10
