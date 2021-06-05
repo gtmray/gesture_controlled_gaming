@@ -55,6 +55,9 @@ class ObjectDetection:
         kernel = np.ones((5, 5), np.uint8)
         erosion = cv2.erode(dilate, kernel)
 
+        # morpho = cv2.morphologyEx(dilate, cv2.MORPH_OPEN, kernel)
+        # morpho = cv2.morphologyEx(morpho, cv2.MORPH_CLOSE, kernel)
+
         return erosion, img
 
 
