@@ -104,6 +104,9 @@ class ObjectDetection:
             pass  # Do nothing if contours not found
         return img
 
+    def __str__(self):
+        return "Object detection module detects hands gesture as well as object!"
+
 
 
 
