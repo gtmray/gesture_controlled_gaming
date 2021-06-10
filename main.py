@@ -4,7 +4,7 @@ from object_detector import ObjectDetection
 from tensorflow.keras.models import load_model
 from tensorflow.keras.preprocessing import image
 
-model = 'models\\model2.h5'
+model = 'models\\model_94.h5'
 model = load_model(model)
 
 
