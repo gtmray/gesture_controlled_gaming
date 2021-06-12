@@ -46,8 +46,11 @@ while True:
     img_pre_blue, img_blue = obj_blue.preprocess(img)
     img_contour_blue = obj_blue.contours(img_pre_blue, img_blue)
 
+    # Prediction changes only starts from here
     img_pre = preprocess_img(img_pre_hand)
     result = model.predict_classes(img_pre)
+    # print(result)
+    # result = np.argmax(result, axis=1)[0]
     if result == 0:
         text = "Up"
     elif result == 1:

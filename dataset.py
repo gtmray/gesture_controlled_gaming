@@ -4,11 +4,11 @@ from object_detector import ObjectDetection
 
 p1_hand = (0, 0)
 p2_hand = (200, 300)
-lower_hsv_hand = (0, 56, 0)
-file_directory = 'Data\\Test\\Left\\'
+lower_hsv_hand = (0, 50, 0)
+file_directory = 'Data\\Train\\Right\\'
 name = 'HANDS'
-i = 0
-limit = 99
+i = 2000
+limit = 2999
 
 cap = cv2.VideoCapture(1)
 obj = ObjectDetection(hands_or_blue=2, p1=p1_hand, p2=p2_hand, lower_hsv=lower_hsv_hand)

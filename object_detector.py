@@ -29,6 +29,7 @@ class ObjectDetection:
 
         cv2.rectangle(img, self.p1, self.p2, (255, 0, 0), 1)
         roi = img[self.p1[1]:self.p2[1], self.p1[0]:self.p2[0]]
+
         hsv_img = cv2.cvtColor(roi, cv2.COLOR_BGR2HSV)
 
         lh = cv2.getTrackbarPos("LH", "Adjusting value")
@@ -46,8 +47,8 @@ class ObjectDetection:
             l_hsv = self.lower_hsv
 
         masked = cv2.inRange(hsv_img, l_hsv, higher_hsv)  # Make required color white and background black
-
         blurred = cv2.GaussianBlur(masked, (5, 5), 0)
+
         #color_filtered = cv2.bitwise_and(roi, roi, mask=blurred)  # Get the original image containing only required color and others black
         #inverting = cv2.bitwise_not(blurred)  # Inverting masked white -> black and black -> white
 
