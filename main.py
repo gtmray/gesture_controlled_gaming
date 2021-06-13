@@ -2,9 +2,9 @@ import cv2
 import numpy as np
 from object_detector import ObjectDetection
 from tensorflow.keras.models import load_model
-from tensorflow.keras.preprocessing import image
+from tensorflow.keras.applications.mobilenet import preprocess_input
 
-model = 'models\\model_94.h5'
+model = 'models\\model_new_2.h5'
 model = load_model(model)
 
 
@@ -18,7 +18,7 @@ def preprocess_img(img_for_pred):
     img_new[:, :, 2] = img_pred
 
     img_pred = np.reshape(img_new, [1, img_width, img_height, 3])  # Reshaping to shape that keras accepts
-
+    img_pred = preprocess_input(img_pred)
     return img_pred
 
 cap = cv2.VideoCapture(1)
