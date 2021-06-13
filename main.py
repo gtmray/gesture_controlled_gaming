@@ -2,7 +2,8 @@ import cv2
 import numpy as np
 from object_detector import ObjectDetection
 from tensorflow.keras.models import load_model
-from tensorflow.keras.applications.mobilenet import preprocess_input
+from tensorflow.keras.applications.vgg16 import preprocess_input
+# from tensorflow.keras.applications.mobilenet import preprocess_input
 
 model = 'models\\model_new_2.h5'
 model = load_model(model)
@@ -31,7 +32,8 @@ p2_hand = (200, 300)
 
 lower_hsv_blue = (97, 114, 43)  # blue
 # lower_hsv_hand = (30, 0, 143)  # hands2
-lower_hsv_hand = 0
+lower_hsv_hand = (0, 55, 0)  # 5:31 pm
+# lower_hsv_hand = 0
 
 obj_blue = ObjectDetection(draw_contour=1, hands_or_blue=1, p1=p1_blue, p2=p2_blue, lower_hsv=lower_hsv_blue)
 obj_hand = ObjectDetection(draw_contour=1, hands_or_blue=0, p1=p1_hand, p2=p2_hand, lower_hsv=lower_hsv_hand)
