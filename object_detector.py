@@ -64,6 +64,7 @@ class ObjectDetection:
 
     def contours(self, erosion, img):
 
+        kill = False
         th = cv2.getTrackbarPos("Threshold", "Adjusting value")
         _, thresh = cv2.threshold(erosion, th, 255, cv2.THRESH_BINARY)
 
@@ -75,7 +76,7 @@ class ObjectDetection:
             area = cv2.contourArea(cm)
 
             if area > 3000:  # To avoid the boundary from getting drawn
-                #print("KILLLLLLLLLLLLLLL")
+                kill = True
                 hull = cv2.convexHull(cm)
 
                 if self.draw_contour == 3:
@@ -103,7 +104,7 @@ class ObjectDetection:
                     print("Invalid contour selected")
         except:
             pass  # Do nothing if contours not found
-        return img
+        return img, kill
 
     def __str__(self):
         return "Object detection module detects hands gesture as well as object!"

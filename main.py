@@ -4,6 +4,7 @@ from object_detector import ObjectDetection
 from tensorflow.keras.models import load_model
 from tensorflow.keras.applications.vgg16 import preprocess_input
 # from tensorflow.keras.applications.mobilenet import preprocess_input
+import pydirectinput as pd
 
 model = 'models\\model_new_2.h5'
 model = load_model(model)
@@ -43,24 +44,30 @@ while True:
     _, img = cap.read()
     img = cv2.flip(img, 2)
     img_pre_hand, img_hand = obj_hand.preprocess(img)
-    img_contour_hand = obj_hand.contours(img_pre_hand, img_hand)
+    img_contour_hand, _ = obj_hand.contours(img_pre_hand, img_hand)
 
     img_pre_blue, img_blue = obj_blue.preprocess(img)
-    img_contour_blue = obj_blue.contours(img_pre_blue, img_blue)
+    img_contour_blue, kill = obj_blue.contours(img_pre_blue, img_blue)
 
     # Prediction changes only starts from here
     img_pre = preprocess_img(img_pre_hand)
     result = model.predict_classes(img_pre)
-    # print(result)
-    # result = np.argmax(result, axis=1)[0]
+
     if result == 0:
         text = "Up"
+        pd.press('Up')
     elif result == 1:
         text = "Down"
+        pd.press('Down')
     elif result == 2:
         text = "Left"
+        pd.press('Left')
     else:
         text = "Right"
+        pd.press('Right')
+
+    if kill == True:
+        pd.press('Space')
 
     cv2.putText(img_contour_blue, text, (300, 90), cv2.FONT_HERSHEY_SIMPLEX, 3, (255, 0, 0), 2, cv2.LINE_AA)
     cv2.imshow('Hands', img_pre_hand) #  ROI hands image
