@@ -1,6 +1,6 @@
 import cv2
 import numpy as np
-
+import pydirectinput as pd
 
 class ObjectDetection:
     def __init__(self, hands_or_blue, p1, p2, lower_hsv=0, draw_contour=0):
@@ -10,6 +10,7 @@ class ObjectDetection:
         self.hands_or_blue = hands_or_blue
         self.lower_hsv = lower_hsv
 
+        # pd.PAUSE = 0
         cv2.namedWindow("Adjusting value", cv2.WINDOW_NORMAL)
         cv2.resizeWindow("Adjusting value", (400, 400))
         cv2.createTrackbar("Threshold", "Adjusting value", 0, 255, self.nothing)
@@ -27,7 +28,7 @@ class ObjectDetection:
 
     def preprocess(self, img):
 
-        cv2.rectangle(img, self.p1, self.p2, (255, 0, 0), 1)
+        cv2.rectangle(img, self.p1, self.p2, (45, 229, 91), 1)
         roi = img[self.p1[1]:self.p2[1], self.p1[0]:self.p2[0]]
 
         hsv_img = cv2.cvtColor(roi, cv2.COLOR_BGR2HSV)
