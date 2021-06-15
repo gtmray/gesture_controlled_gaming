@@ -1,16 +1,16 @@
 import cv2
 import numpy as np
-import pydirectinput as pd
 
 class ObjectDetection:
     def __init__(self, hands_or_blue, p1, p2, lower_hsv=0, draw_contour=0):
-        self.p1 = p1
-        self.p2 = p2
-        self.draw_contour = draw_contour
+        self.p1 = p1  # Point 1
+        self.p2 = p2  # Point 2
+        self.draw_contour = draw_contour  # 0 = Do not draw, 1 = Contour, 2 = Contour + convex hull,
+        # 3 = Contour + convex hull + convexity defect
         self.hands_or_blue = hands_or_blue
         self.lower_hsv = lower_hsv
 
-        # pd.PAUSE = 0
+        # Create window for tracking and adjusting values
         cv2.namedWindow("Adjusting value", cv2.WINDOW_NORMAL)
         cv2.resizeWindow("Adjusting value", (400, 400))
         cv2.createTrackbar("Threshold", "Adjusting value", 0, 255, self.nothing)
@@ -22,14 +22,14 @@ class ObjectDetection:
         cv2.createTrackbar("HS", "Adjusting value", 255, 255, self.nothing)
         cv2.createTrackbar("HV", "Adjusting value", 255, 255, self.nothing)
 
-
     def nothing(self, x):
+        # Do nothing when no changes
         pass
 
     def preprocess(self, img):
 
         cv2.rectangle(img, self.p1, self.p2, (45, 229, 91), 1)
-        roi = img[self.p1[1]:self.p2[1], self.p1[0]:self.p2[0]]
+        roi = img[self.p1[1]:self.p2[1], self.p1[0]:self.p2[0]]  # region of interest
 
         hsv_img = cv2.cvtColor(roi, cv2.COLOR_BGR2HSV)
 
@@ -43,9 +43,9 @@ class ObjectDetection:
         higher_hsv = (hh, hs, hv)
 
         if self.lower_hsv == 0:
-            l_hsv = (lh, ls, lv)
+            l_hsv = (lh, ls, lv)  # Test values if 0
         else:
-            l_hsv = self.lower_hsv
+            l_hsv = self.lower_hsv  # Custom values already tested
 
         masked = cv2.inRange(hsv_img, l_hsv, higher_hsv)  # Make required color white and background black
         blurred = cv2.GaussianBlur(masked, (5, 5), 0)
@@ -62,7 +62,6 @@ class ObjectDetection:
 
         return erosion, img
 
-
     def contours(self, erosion, img):
 
         kill = False
@@ -74,7 +73,7 @@ class ObjectDetection:
         try:
             cm = sorted(contours, key=lambda x: cv2.contourArea(x), reverse=True)[0]  # Sort by area
             cm = cm + [self.p1[0], 0]  # Translating to left
-            area = cv2.contourArea(cm)
+            area = cv2.contourArea(cm)  # Calculate area of largest contour
 
             if area > 3000:  # To avoid the boundary from getting drawn
                 kill = True
@@ -82,7 +81,7 @@ class ObjectDetection:
 
                 if self.draw_contour == 3:
                     cv2.drawContours(img, [cm], -1, (0, 255, 0), 3)  # Drawing contours in largest area
-                    cv2.drawContours(img, [hull], -1, (0, 0, 255), 2)
+                    cv2.drawContours(img, [hull], -1, (0, 0, 255), 2)  # Drawing convex hull
 
                     # For convexity defects
                     hull = cv2.convexHull(cm, returnPoints=False)

@@ -7,7 +7,8 @@ import pydirectinput as pd
 
 model = 'models\\model_new_2.h5'
 model = load_model(model)
-pd.PAUSE = 0.01
+pd.PAUSE = 0.01  # Default is 0.1 so to avoid lagging
+
 
 def preprocess_img(img_for_pred):
     img_width, img_height = 200, 300
@@ -43,14 +44,14 @@ obj_hand = ObjectDetection(draw_contour=1, hands_or_blue=0, p1=p1_hand, p2=p2_ha
 while True:
     _, img = cap.read()
     img = cv2.flip(img, 2)
-    img_pre_hand, img_hand = obj_hand.preprocess(img)
-    img_contour_hand, _ = obj_hand.contours(img_pre_hand, img_hand)
+    img_pre_hand, img_hand = obj_hand.preprocess(img)  # Get preprocessed image
+    img_contour_hand, _ = obj_hand.contours(img_pre_hand, img_hand)  # Get image with contours
 
     img_pre_blue, img_blue = obj_blue.preprocess(img)
     img_contour_blue, kill = obj_blue.contours(img_pre_blue, img_blue)
 
     # Prediction changes only starts from here
-    img_pre = preprocess_img(img_pre_hand)
+    img_pre = preprocess_img(img_pre_hand)  # Converting to keras form of input
     result = model.predict_classes(img_pre)
 
     if result == 0:
@@ -76,7 +77,7 @@ while True:
     cv2.imshow('Image', img_contour_blue)
 
     k = cv2.waitKey(1) & 0xff
-    if k == 27:
+    if k == 27:  # If backspace break
         break
 
 cv2.destroyAllWindows()
